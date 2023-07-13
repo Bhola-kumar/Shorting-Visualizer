@@ -1,61 +1,59 @@
-async function selection(){
-    const ele = document.querySelectorAll(".bar");
-    for(let i = 0; i < ele.length; i++){
-        if(hasPressedStop==true){
-            return;
-        }
-        let min_index = i;
-        // Change color of the bar being compared
-        ele[i].style.background = 'lightgreen';
-        for(let j = i+1; j < ele.length; j++){
-            if(hasPressedStop==true){
-                return;
-            }
-            // Change color of current bar
-            ele[j].style.background = 'cyan';
+const sleep = (time) => {
+    return new Promise(resolve => setTimeout(resolve,time));
+}
 
-            await delayTime(delay);
-            if(hasPressedStop==true){
-                return;
+async function selectionSort(arr){
+    for(let i=0;i<(arr.length);i++){
+        let minindx=i;
+        let e=document.getElementById('elem'+minindx);
+        e.style.background='#FF0000';
+        for(let j=i+1;j<arr.length;j++){
+            await sleep(150);
+            let e1=document.getElementById('elem'+j);
+            e1.style.background='#BB0123';
+            await sleep(150);
+            if(arr[j]<arr[minindx]){
+                let e2=document.getElementById('elem'+minindx);
+                e2.style.background='#00FF00';
+                minindx=j;
+                let e3=document.getElementById('elem'+minindx);
+                e3.style.background='#FF0000';
             }
-            if(parseInt(ele[j].style.height) < parseInt(ele[min_index].style.height)){
-                if(min_index !== i){
-                    // new min_index is found so change prev min_index color back to normal
-                    ele[min_index].style.background = '#e43f5a';
-                }
-                min_index = j;
-            } 
             else{
-                // if the currnent comparision is more than min_index change is back to normal
-                ele[j].style.background = '#e43f5a';
-            }   
+                e1.style.background='#00FF00';
+            }
         }
-        await delayTime(delay);
-        if(hasPressedStop==true){
-            return;
-        }
-        swap(ele[min_index], ele[i]);
-        // change the min element index back to normal as it is swapped 
-        ele[min_index].style.background = '#e43f5a';
-        // change the sorted elements color to green
-        ele[i].style.background = 'green';
+        swapNumber(arr,i,minindx);
+        await sleep(150);
+        swapColor(i,minindx);
+        swapHeight(i,minindx);
     }
 }
 
-const selectionSortbtn = document.querySelector(".selectionSort");
-selectionSortbtn.addEventListener('click', async function(){
-    hasPressedStop = false;
-    disableSortingBtn();
-    disableSizeSlider();
-    disableNewArrayBtn();
-    enableStopSortingBtn();
-    await selection();
-    if(hasPressedStop==true){
-        disableSpeedSlider();
-    } else {
-        enableSortingBtn();
-        enableSizeSlider();
-    }
-    enableNewArrayBtn();
-    disableStopSortingBtn();
-});
+function swapNumber(arr,i,minindx) {
+    let temp =arr[i];
+    arr[i]=arr[minindx];
+    arr[minindx]=temp;
+}
+
+function swapHeight(j,minindx) {
+    
+    let e1 = document.getElementById('elem' +j);
+    let e2 = document.getElementById('elem' +(minindx));
+    
+    let h1=e1.clientHeight;
+    let h2=e2.clientHeight;
+    e1.style.height = h2+"px";
+    e2.style.height = h1+"px";
+
+}
+
+function swapColor(j,minindx){
+    let e1 = document.getElementById('elem' +j);
+    let e2 = document.getElementById('elem' +(minindx));
+    e2.style.backgroundColor='#00FF00';
+    e1.style.backgroundColor = '#AA9870';
+    
+}
+
+export { selectionSort };

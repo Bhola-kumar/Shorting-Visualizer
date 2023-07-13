@@ -1,53 +1,57 @@
-async function insertion(){
-    const ele = document.querySelectorAll(".bar");
-    ele[0].style.background = 'green';
-    for(let i = 1; i < ele.length; i++){
-        if(hasPressedStop==true){
-            return;
-        }
-        let j = i - 1;
-        let key = ele[i].style.height;
-        ele[i].style.background = 'blue';
-
-        await delayTime(delay);
-        if(hasPressedStop==true){
-            return;
-        }
-
-        while(j >= 0 && (parseInt(ele[j].style.height) > parseInt(key))){
-            if(hasPressedStop==true){
-                return;
+const sleep = (time) => {
+    return new Promise(resolve => setTimeout(resolve,time));
+}
+let delay=50;
+async function insertionSort(arr){
+    for(let i=0;i<(arr.length);i++){
+        let e = document.getElementById('elem' +i);
+        e.style.backgroundColor='#FF0000';
+        let br=0;
+        for(let j=i;j>0;j--){
+            await sleep(delay);
+            if(arr[j]<arr[j-1]){
+                swapNumber(arr,j);
+                swapColor(j);
+                swapHeight(j);
             }
-            ele[j].style.background = 'blue';
-            ele[j + 1].style.height = ele[j].style.height;
-            j--;
-
-            await delayTime(delay);
-            if(hasPressedStop==true){
-                return;
+            else{
+                br=j;
+                break;
             }
-            for(let k = i; k >= 0; k--){
-                ele[k].style.background = 'green';
-            }
+            
         }
-        ele[j + 1].style.height = key;
-        ele[i].style.background = 'green';
+        await sleep(delay);
+        let e1= document.getElementById('elem' +br);
+        e1.style.backgroundColor='#AA9870';
     }
 }
 
-const inSortbtn = document.querySelector(".insertionSort");
-inSortbtn.addEventListener('click', async function(){
-    disableSortingBtn();
-    disableSizeSlider();
-    disableNewArrayBtn();
-    enableStopSortingBtn();
-    await insertion();
-    if(hasPressedStop==true){
-        disableSpeedSlider();
-    } else {
-        enableSortingBtn();
-        enableSizeSlider();
-    }
-    enableNewArrayBtn();
-    disableStopSortingBtn();
-});
+function swapNumber(arr,j) {
+    let temp =arr[j];
+    arr[j]=arr[j-1];
+    arr[j-1]=temp;
+}
+
+function swapHeight(j) {
+    
+    let e1 = document.getElementById('elem' +j);
+    let e2 = document.getElementById('elem' +(j-1));
+    
+    let h1=e1.clientHeight;
+    let h2=e2.clientHeight;
+    e1.style.height = h2+"px";
+    e2.style.height = h1+"px";
+
+}
+
+function swapColor(j){
+    let e1 = document.getElementById('elem' +j);
+    let e2 = document.getElementById('elem' +(j-1));
+
+    let tempcolor = e1.style.backgroundColor;
+    e1.style.backgroundColor = e2.style.backgroundColor;
+    e2.style.backgroundColor=tempcolor;
+}
+
+
+export { insertionSort };
