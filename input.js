@@ -35,7 +35,7 @@ function createBars(arr){
     for (let i = 0; i < arr.length; i++) {
       let innerDiv = document.createElement('div');
       innerDiv.style.height = `${arr[i] * 2}px`;
-      innerDiv.style.backgroundColor = '#00FF00';
+      innerDiv.style.backgroundColor = '#48c486';
       innerDiv.setAttribute('id', `elem${i}`);
       innerDiv.classList.add("innerDiv");
       parentDivbox2.appendChild(innerDiv);
