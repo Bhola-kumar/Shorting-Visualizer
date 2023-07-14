@@ -25,9 +25,10 @@ document.addEventListener('DOMContentLoaded',  () => {
   }
   sliderForSize.addEventListener("input", getarraySize);
 
-  let mini=1,maxi=101;
+  let mini=1,maxi=101; 
   let gen = document.getElementsByClassName('btn')[0];
   let arr=generateRandomArray(arrSize,mini,maxi);
+  
   createBars(arr);
   animateSoundBars();
   let generateArrayCheck=false;
@@ -47,29 +48,71 @@ document.addEventListener('DOMContentLoaded',  () => {
     selectedLanguage.selectedIndex = 1; 
     switch (sortingMethod) {
       case "bubbleSort":
-        bubbleSort(arr);
         bubbleSortCode();
+        gen.disabled=true;
+        btn.disabled=true;
+        bubbleSort(arr)
+        .then(() => {
+          gen.disabled = false;
+          btn.disabled=false;
+        });
+        
         break;
       case "selectionSort":   
-        selectionSort(arr);
         selectionSortCode();
+        gen.disabled=true;
+        btn.disabled=true;
+        selectionSort(arr)
+        .then(() => {
+          gen.disabled = false;
+          btn.disabled=false;
+        });
+        
         break;
       case "insertionSort":
-        insertionSort(arr);
         insertionSortCode();
+        gen.disabled=true;
+        btn.disabled=true;
+        insertionSort(arr)
+        .then(() => {
+          gen.disabled = false;
+          btn.disabled=false;
+        });
+        
         break;
       case "quickSort":
-        let speed=50;
-        quickSort(arr,0,arr.length-1,speed);
+        let speed=100;
         quickSortCode();
+        gen.disabled=true;
+        btn.disabled=true;
+        quickSort(arr,0,arr.length-1,speed)
+        .then(() => {
+          gen.disabled = false;
+          btn.disabled=false;
+        });
+        
         break;
       case "mergeSort":
-        mergeSort(arr,0,arr.length-1);
         mergeSortCode();
+        gen.disabled=true;
+        btn.disabled=true;
+        mergeSort(arr,0,arr.length-1)
+        .then(() => {
+          gen.disabled = false;
+          btn.disabled=false;
+        });
+        
         break;
       case "heapSort":
-        heapSort(arr,arr.length);
         heapSortCode();
+        gen.disabled=true;
+        btn.disabled=true;
+        heapSort(arr,arr.length)
+        .then(() => {
+          gen.disabled = false;
+          btn.disabled=false;
+        });
+        
         break;
       default:
         let selectedLanguage = document.querySelector(".language-option");
